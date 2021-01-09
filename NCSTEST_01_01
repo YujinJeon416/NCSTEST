@@ -1,0 +1,86 @@
+2020/12/23
+NCS TEST
+
+1. 다음 연산자들 목록에서 연산자의 우선순위가 높은 순서대로 기술하시오. (10점)
+
+[산술연산자, 삼항연산자, 논리연산자, 최우선연산자, 대입연산자]
+   
+최우선연산자
+산술연산자
+논리연산자
+삼항연산자
+대입연산자
+
+
+2.	변수 선언 시 사용되는 기본(primitive) 자료형별 각 메모리 할당 크기를 기술하시오. (10점) 
+
+byte 1byte
+char 2byte​
+short 2byte​
+int 4byte​
+long​ 8byte​
+float 4byte​
+double​ 8byte​
+boolean 1byte
+
+3.	
+자바에서의 클래스변수, 인스턴스변수, 지역변수의 특징에 대해 상세히 기술하시오. (15점)
+
+모범답안
+클래스변수 : static 으로 선언된 멤버변수, 프로그램 실행시 정적메모리 영역에 자동 할당되며, 프로그램 종료시 자동 소멸되는 변수
+
+인스턴스변수 : new 에 의해 동적메모리 힙(heap) 에 할당되는 객체(인스턴스) 안에 할당되는 변수로 this 에 의해 참조된다. 가비지콜렉터에 의해 삭제된다.
+
+지역변수 : 메소드 또는 제어문 안에서 선언된 변수로 메모리 스택(stack)에 메소드 또는 제어문 실행시 할당되었다가 메소드 또는 제어문 종료시 소멸된다.
+
+
+4.	
+다음 두 클래스의 차이점을 설명하시오. (15점)
+1. public class 클래스명 {}
+2. class 클래스명 {}
+1. public class 클래스명{}
+공개 클래스라고 함
+패키지 밖의 다른 클래스에서 사용하고자 할 경우, import하면 사용가능함
+
+2. class 클래스명{}
+default 클래스라고 함
+해당 패키지 안에 있는 클래스들 끼리만 import 없이 사용가능한 클래스임.
+패키지 밖에서는 사용할 수 없는 클래스임
+
+5.	
+아래의 각 메소드가 속해있는 클래스을 바르게 잇고, 해당 메소드의 기능을 설명하시오. (25점)
+1. public char charAt(int index) :
+2. public String nextLine() : ⓐ Scanner
+3. public int length() : ⓑ Math
+4. public boolean equals(Object anObject) : ⓒ String
+5. public static double random() :
+
+모범답안
+1. public char charAt(int index) : ⓒString클래스 / 전달받은 index 위치의 문자 리턴
+2. public String nextLine() : ⓒScanner클래스 / 사용자가 입력한 문자열 리턴
+3. public int length() : ⓒString클래스 / this 문자열의 글자갯수 리턴
+4. public boolean equals(Object object) : ⓒString클래스 / 전달받은 값이 일치하는지 여부 리턴
+5. public static double random() : ⓑMath클래스 / 0이상 1미만의 난수 값 리턴
+
+6.	
+java.util.Scanner 클래스의 nextLine() 메소드를 사용하여 키보드로 값을 입력받아 출력처리하는 구문을 아래의 예와 같이 실행되도록 구문을 작성하시오. (25점)
+-변수명은 임의대로 선언합니다.
+-클래스와 메소드는 생략합니다. 구문만 작성합니다.
+
+[입력]
+
+아이디 : kh007
+
+이름 : 홍길동
+
+[출력]
+
+홍길동님의 아이디는 kh007입니다.
+
+모범답안 
+Scanner sc = new Scanner(System.in);
+System.out.print("아이디 : ");
+Strng id = sc.nextLine();
+System.out.print("이름 : ");
+String name = sc.nextLine();
+System.out.println(name + "님의 아이디는 " + id + "입니다.");
