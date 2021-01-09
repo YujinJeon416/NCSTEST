@@ -1,0 +1,253 @@
+2021/01/08
+NCS TEST 네트워크 프로그래밍 구현 (문제해결시나리오)
+
+## 1.2001020508_14v2.1 개발환경 분석하기
+
+### TCP 소켓을 사용하여 클라이언트에서 서버로 연결처리하는 네트워크 프로그램을 구현하고 구동하였으나 서버와 연결이 되지 않았다. 예상 실행결과가 정확히 도출될 수 있도록 문제점이 있는 코드를 찾아 [원인](https://www.notion.so/5%EC%A0%90)에 파악된 문제점을 기술하고, 해결 방안을 구상하여 [조치내용](https://www.notion.so/5%EC%A0%90)에 해결방법을 작성하여 보고서를 완성하시오. (10점)
+
+```java
+'- 서버 IP : 192.168.20.34, 포트번호 : 3000
+[클라이언트용 프로그래밍 코드]
+public void fileUpload() {
+int port = 3000;
+String serverIP;
+try {
+serverIP = InetAddress.getLocalHost().getHostAddress();
+// 2. 소켓 객체 생성 : 생성과 동시에 서버에 연결 요청됨
+Socket socket = new Socket(serverIP, port);
+// 연결 실패는 null 리턴됨
+//이하 코드 중간 생략.....
+}}
+[서버용 프로그래밍 코드]
+public class ServerManager {
+public ServerManager() {}
+public void serverStart() {
+// 1. port 번호 지정
+int port = 3000;
+// 2. 서버용 소켓 객체 생성
+ServerSocket server;
+try {
+server = new ServerSocket(port);
+// 3. 클라이언트가 연결을 요청할 때까지 기다림
+while (true) {
+// 4. 연결을 요청한 클라이언트의 요청 수락함 : 해당 클라이언트 정보를 저장
+Socket client = server.accept();
+// 중간 생략....
+}}}
+```
+
+### <[원인](5점)에 파악된 문제점을 기술>
+
+명시된 서버의 IP주소가 사용되지 않았음.
+
+Socket socket = new Socket(serverIP, port);
+
+### <해결 방안을 구상하여 [조치내용](5점)에 해결방법을 작성>
+
+Socket socket = new Socket("192.168.20.34", port);
+
+로 수정하면 서버와 연결됨
+
+## 2. 2001020508_14v2.2 기능 구현하기
+
+### 파일에 객체 정보를 저장하는 프로그램을 구현하려고 한다. 사용되는 Book 클래스를 [원인](https://www.notion.so/10%EC%A0%90)에 기술하고, 파일에 데이터로 기록 저장하는 코드를 [조치내용](https://www.notion.so/30%EC%A0%90)에 작성하시오. (40점)
+
+```java
+[클라이언트용 프로그래밍 실행 순서]
+[원인] : kh.model.vo.Book 클래스를 캡슐화(EnCapsulation) 원칙에 맞춰서 구현하시오.
+- 직렬화 선언한다.
+- String타입의 title과 int타입의 price 필드를 선언한다
+- 기본생성자와 매개변수 있는 생성자를 작성한다.
+- 필드에 대한 getter 와 setter 작성한다.
+- toString() 메소드를 오버라이딩하여 인스턴스변수의 값에 대한 문장을 작성하여 리턴한다.
+[조치내용] : fileSave() 메소드를 작성하시오. : public void fileSave(String fileName){}
+- 전달받은 fileName 으로 파일 객체를 생성한다.
+- 파일 객체와 연결하는 파일 출력스트림을 생성한다.
+- 파일에 Book 객체를 기록할 수 있는 객체 출력스트림을 추가한다.
+- 파일에 Book 객체 정보를 기록하고 스트림들을 닫는다.
+- Book 객체 샘플 : "자바를 정복하자", 35000
+```
+
+### 사용되는 Book클래스
+
+```java
+```java
+package kh.model.vo;
+public class Book implements java.io.Serializable{
+private String title;
+private int price;
+public Book(){}
+public Book(String title, int price){
+this.title = title;
+this.price = price;
+}
+public void setTitle(String title){
+this.title = title;
+}
+public String getTitle(){
+return title;
+}
+public void setPrice(int price){
+this.price = price;
+}
+public int getPrice(){
+package kh.model.vo;
+public class Book implements java.io.Serializable{
+private String title;
+private int price;
+public Book(){}
+public Book(String title, int price){
+this.title = title;
+this.price = price;
+}
+public void setTitle(String title){
+this.title = title;
+}
+public String getTitle(){
+return title;
+}
+public void setPrice(int price){
+this.price = price;
+}
+public int getPrice(){
+return price;
+}
+@Override
+public String toString(){
+return title + ", " + price;
+}
+}
+```
+```
+
+### 파일에 데이터로 기록 저장하는 코드
+
+```java
+// 파일에 객체를 저장하기 위한 메소드
+public void fileSave(String fileName) {
+try (ObjectOutputStream objOut = new ObjectOutputStream
+                                 (new FileOutputString(fileName));){
+objOut.writeObject(new Book("자바를 정복하자", 35000));
+}catch(Exception e){
+e.printStackTrace();
+}
+} //fileSave() close
+```
+
+## 3. 2001020508_14v2.3 프로그램 디버깅하기
+
+### ArrayList 를 사용하여 Book 객체 여러개의 값들을 추가 저장하는 프로그램을 구현하기 위해 다음의 요구하는 기능에 대한 메소드를 작성하시오. 요구된 ArrayList 클래스에 Book 만 저장할수 있도록 제네릭스를 사용하는 객체 생성구문을 [원인](https://www.notion.so/5%EC%A0%90)에 기술하고, 요구된 메소드 코드를 [조치내용](https://www.notion.so/20%EC%A0%90)에 기술하시오. (25점)
+
+```java
+[클라이언트용 프로그래밍 실행 순서]
++ fileSave() : void
+=> 2번 문항의 [원인]에 기술한 Book 객체만 저장할 수 있는
+   ArrayList bookList 객체를 생성한다.
+=> bookList 에 아래의 5개의 Book 객체를 리스트에 저장한다.
+Book("자바를 잡아라", 30000));
+Book("오라클 정복", 35000));
+Book("웹표준 2.0", 27500));
+Book("자바 Servlet/JSP", 28000));
+Book("ajax 사용법", 15000));
+=> 저장된 bookList 정보 출력 확인한다.
+```
+
+### 요구된 ArrayList 클래스에 Book 만 저장할수 있도록 제네릭스를 사용하는 객체 생성구문
+
+```java
+ArrayList<Book> bookList = new ArrayList<Book>();
+```
+
+### 요구된 메소드 코드
+
+```java
+// Book 객체 파일 출력용
+public void fileSave() {
+ArrayList<Book> bookList = new ArrayList<Book>();
+bookList.add(new Book("자바를 잡아라", 30000));
+bookList.add(new Book("오라클 정복", 35000));
+bookList.add(new Book("웹표준 2.0", 27500));
+bookList.add(new Book("자바 Servlet/JSP", 28000));
+bookList.add(new Book("ajax 사용법", 15000));
+System.out.println(bookList);
+}
+```
+
+## 4. 2001020508_14v2.4 프로그램 최적화하기
+
+### ArrayList를 이용해 다수의 Fruit객체를 저장하였다. ([그림1]참고) 값 삽입 후 삭제를 하려고 했을 때 원하는 대로 삭제가 되지 않았다. 
+([그림2] 참고) 이에 대한 이유를 [원인](https://www.notion.so/10%EC%A0%90)에 기술하고, 이에 대한 해결 방법이 담긴 Fruit 객체를 클래스 다이어그램을 참고하여 
+[조치내용](https://www.notion.so/15%EC%A0%90)에 기술하시오. (25점)
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/02b1b8aa-4769-4d10-bf74-d94a45d527d4/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/02b1b8aa-4769-4d10-bf74-d94a45d527d4/Untitled.png)
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4a267276-ffcd-4fe4-9fa3-2a9ef0a48a4c/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4a267276-ffcd-4fe4-9fa3-2a9ef0a48a4c/Untitled.png)
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ed9fdb68-706f-4400-9bd1-35d1c6ce7e50/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ed9fdb68-706f-4400-9bd1-35d1c6ce7e50/Untitled.png)
+
+### 값 삽입 후 삭제를 하려고 했을 때 원하는 대로 삭제가 되지 않았다. ([그림2] 참고) 이에 대한 이유
+
+equals를 오버라이딩 하지 않아 주소 값으로 비교를 하고 있는데
+
+new연산자로 새로운 주소 값을 갖고 있으니 다른 객체로 인식함.
+
+### 이에 대한 해결 방법이 담긴 Fruit 객체를 클래스 다이어그램을 참고하여 [조치내용](https://www.notion.so/15%EC%A0%90)에 기술
+
+```java
+package com.kh.test.fruit.model.vo;
+public class Fruit {
+private String name;
+private String flavor;
+public Fruit() {}
+public Fruit(String name, String flavor) {
+super();
+this.name = name;
+this.flavor = flavor;
+}
+public String getName() {
+return name;
+}
+public void setName(String name) {
+this.name = name;
+}
+public String getFlavor() {
+return flavor;
+}
+public void setFlavor(String flavor) {
+this.flavor = flavor;
+}
+@Override
+public String toString() {
+return "Fruit [name=" + name + ", flavor=" + flavor + "]";
+}
+@Override
+public int hashCode() {
+final int prime = 31;
+int result = 1;
+result = prime * result + ((flavor == null) ? 0 : flavor.hashCode());
+result = prime * result + ((name == null) ? 0 : name.hashCode());
+return result;
+}
+@Override
+public boolean equals(Object obj) {
+if (this == obj)
+return true;
+if (obj == null)
+return false;
+if (getClass() != obj.getClass())
+return false;
+Fruit other = (Fruit) obj;
+if (flavor == null) {
+if (other.flavor != null)
+return false;
+} else if (!flavor.equals(other.flavor))
+return false;
+if (name == null) {
+if (other.name != null)
+return false;
+} else if (!name.equals(other.name))
+return false;
+return true;
+}
+}
+```
