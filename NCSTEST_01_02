@@ -1,0 +1,235 @@
+2020/12/23
+NCS TEST 프로그래밍언어활용문제해결시나리오
+
+고객 요구사항에 맞춰 가위 바위 보 게임 프로그램을 개발하는 도중 테스트단계에서 고객이 원하는 실행결과가 도출되지 않았다.
+예상 실행결과가 정확히 도출될 수 있도록 문제점이 있는 코드를 찾아 [원인](15점)에 파악된 문제점을 기술하고, 
+해결 방안을 구상하여 [조치내용](15점)에 해결방법을 작성하여 보고서를 완성하시오. (30점)
+고객 요구사항
+
+1. 가위 바위 보 중 하나의 문자열을 입력 받고, 난수를 발생시켜 랜덤하게 가위 바위 보 문자열을 생성한다.
+
+2. 랜덤한 가위 바위 보 문자열과 입력한 문자열이 같으면 아래 실행 결과처럼 비겼다고 출력하고 가위 바위 보 게임을 반복한다.
+
+3 입력한 가위 바위 보 문자열이 랜덤한 가위 바위 보 문자열과 비교하여 가위 바위 보 게임의 룰 대로 이긴 경우 이겼다고 출력, 진 경우 졌다고 출력 후 종료
+
+정상 실행 결과 예시
+
+----------- 컴퓨터에게 지는 경우 -------------
+
+가위 바위 보 게임을 시작합니다.
+
+가위 바위 보 중 한 개를 입력하세요 : 가위
+
+당신은 가위를 냈습니다.
+
+컴퓨터는 바위를 냈습니다.
+
+당신이 졌습니다!
+
+-----------컴퓨터에게 이기는 경우 --------------
+
+가위 바위 보 게임을 시작합니다.
+
+가위 바위 보 중 한 개를 입력하세요 : 보
+
+당신은 보를 냈습니다.
+
+컴퓨터는 바위를 냈습니다.
+
+당신이 이겼습니다!
+
+-------- 컴퓨터와 비기는 경우 ------------
+
+가위 바위 보 게임을 시작합니다.
+
+가위 바위 보 중 한 개를 입력하세요 : 가위
+
+당신은 가위를 냈습니다.
+
+컴퓨터는 가위를 냈습니다.
+
+비겼습니다. 다시 시작합니다.
+
+가위 바위 보 중 한 개를 입력하세요 : <-- 출력하며 반복됨
+
+
+
+
+
+모범답안	
+17행 : 부적절한 범위의 난수가 발생됨
+
+29, 34, 35, 38, 39, 43행 : 문자열 비교시 ==로 비교하지 못하고 equals()로 비교해야함
+
+57행 : do~while문의 조건식에 false로 값이 되어 있어 반복문이 구동되지 않음
+
+
+모범답안	
+17행 : int random = (int)(Math.random() * 3); 으로 난수 범위 수정
+
+29, 34, 35, 38, 39, 43행 : 문자열.equals(문자열)로 조건식 변경
+
+57행 : do~while문의 조건식을 true로 변경
+
+
+2.	2001020215_15v3.2 언어특성 활용하기
+
+제시된 클래스 다이어그램을 분석하여 아래의 실행결과가 도출될 수 있도록, 클래스 작성 순서를 구체적으로 [원인](10점)에 기술하고, 
+클래스간 의존관계를 정하고 클래스별 상세 요구에 따라 단계별 코드를 [조치내용](40점)에 완성하여 제출하시오. (50점)
+
+모범답안	
+1. Circle 클래스를 작성한다.
+
+2. Rectangle 클래스를 작성한다.
+
+3. main() 메소드를 포함하는 실행용 클래스로 ShapeMaker 클래스를 작성한다.
+
+4. main() 메소드에서 요구한 실행결과가 도출되도록 Circle 과 Rectangle 클래스를 사용하여 실행될 코드를 작성한다.
+
+
+모범답안	package com.kh.test.shape.model.vo;
+
+public class Circle{
+ public static final double PI = Math.PI;
+ private int radius;
+ 
+ public Circle() {}
+ 
+ public Circle(int radius) {
+  this.radius = radius;
+ }
+ 
+ public void setRadius(int radius) {
+  this.radius = radius;
+ }
+ public int getRadius() {
+  return radius;
+ }
+ 
+ @Override
+ public void draw() {
+  System.out.println("반지름 " + radius + "cm인 원을 그립니다.");
+ } 
+}
+
+package com.kh.test.shape.model.vo;
+
+public class RectAngle{
+ private int width;
+ private int height;
+ 
+ public RectAngle() {}
+ 
+ public RectAngle(int width, int height) {
+  this.width = width;
+  this.height = height;
+ }
+ 
+ public void setWidth(int width) {
+  this.width = width;
+ }
+ public void setHeight(int height) {
+  this.height = height;
+ }
+ public int getWidth() {
+  return width;
+ }
+ public int getHeight() {
+  return height;
+ }
+ 
+ @Override
+ public void draw() {
+  System.out.println("가로 " + width + "cm, 세로 " + height + "cm인 사각형을 그립니다.");
+ }
+}
+
+//실행용 클래스
+package com.kh.test.shape.controller;
+
+import com.kh.test.shape.model.vo.Circle;
+import com.kh.test.shape.model.vo.RectAngle;
+
+public class ShapeMaker {
+
+ public static void main(String[] args) {
+  Circle[] sarr = new Circle[3];
+  
+  sarr[0] = new Circle(10, 20);
+  sarr[1] = new Circle(40);
+  sarr[2] = new Circle(50);
+  
+  for(Circle s : sarr) {
+   s.draw();
+  }
+
+ Rectangle[] rarr = new Rectangle[2];
+  rarr[0] = new RectAngle(20, 20);
+  sarr[1] = new RectAngle(50, 60);
+
+   for(Rectangle s : rarr) {
+   s.draw();
+  }
+ }
+}​
+
+
+
+3. 아래 코드는 Compile시에는 문제가 발생하지 않았지만, 실행시 Runtime Exception이 발생되었다. 
+아래의 클래스 다이어그램을 보고 해당 클래스를 작성한 것을 [원인](10점)에 작성하고, 발생한 Runtime Exception의 이름과 발생 위치, 이유, 그리고 해당 Exception이 발생하지 않도록 
+코드를 수정하여 [조치내용](10점)에 작성하시오. (20점)
+
+모범답안
+package com.kh.test.person.model.vo;
+
+public class Person {
+ private String name;
+ private char gender;
+ 
+ public Person() {}
+
+ public Person(String name, char gender) {
+  super();
+  this.name = name;
+  this.gender = gender;
+ }
+
+ public String getName() {
+  return name;
+ }
+
+ public void setName(String name) {
+  this.name = name;
+ }
+
+ public char getGender() {
+  return gender;
+ }
+
+ public void setGender(char gender) {
+  this.gender = gender;
+ } 
+}​
+
+	
+
+모범답안
+9 : ArrayIndexOutOfBoundException : 반복문의 범위를 벗어났기 때문에
+10 : NullPointerException : 객체 배열의 인덱스가 null을 가지고 있는데 메소드를 호출했기 때문에
+
+package com.kh.test;
+
+import com.kh.test.person.model.vo.Person;
+
+public class Test {
+ public static void main(String[] args) {
+  Person[] pArr = new Person[3];
+  pArr[0] = new Person();
+  pArr[1] = new Person();
+  pArr[2] = new Person();
+  
+  for(int i = 0; i < pArr.length; i++) {
+   System.out.println(pArr[i].getName());
+  }
+ }
+}​
