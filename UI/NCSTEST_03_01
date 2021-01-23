@@ -1,0 +1,64 @@
+[NCS전공교과] UI/UX 요구 분석 (서술형(신))
+1.Java GUI에서 이벤트의 종류를 3개 이상 적으시오. (10점)
+
+KeyEvent, MouseEvent, ItemEvent, ActionEvent, TextEvent 등
+
+2.자바 GUI 에서 Listener 인터페이스를 아무 내용없이 구현해 놓은 클래스를 기술하시오 (10점)
+
+Adapter 클래스
+
+3.GUI에서 Layout의 종류와 그 설명을 세 가지 이상 작성하시오. (15점)
+- BorderLayout : 북, 동, 서, 남, 가운데로 영역이 나뉨
+- GridLayout : 가로 칸, 세로 칸, 가로 간격, 세로 간격을 정해서 규칙적으로 공간이 나뉨
+- GridBagLayout : 영역을 자유로이 만들 수 있으며 공간이 남을 때 가중치를 설정할 수 있음
+- CardLayout : 다수의 패널을 하나로 겹쳐 넘기는 형식으로 퀴즈 화면을 구성할 때 많이 쓰임
+- FlowLayout : 왼쪽에서 오른쪽으로 흐르는 형식으로 정렬 방식을 좌, 우, 가운데 설정 가능
+
+4.오버로딩과 오버라이딩의 성립조건을 작성하시오.(25점)
+1. 오버로딩
+메소드 이름이 같음
+매개변수의 타입이 다르거나 순서가 다르거나 개수가 다름
+(반환타입, 접근제한자 영향 없음)
+
+2. 오버라이딩
+상속 받은 부모 클래스의 메소드와 반환 타입, 이름, 매개변수가 같아야 성립
+(접근제한자는 부모 클래스의 메소드와 같거나 넓어야 함)
+
+
+
+5.아래의 그림에서 쓰인 Component를 모두 기술하시오. (모든 Component를 바로 Frame에 부착하지 않았다는 전제) (15점)
+
+JPanel, JLabel, JTextField, JCheckBox, JRadioButton, JTextArea, Jbutton
+
+6.TCP 소켓 프로그래밍에서 클라이언트 프로그래밍 구현 순서를 기술하시오. (25점)
+<클라이언트용 프로그램>
+1. 서버가 정한 포트번호와 서버의 IP 주소가 필요함
+2. 클라이언트용 소켓 객체 생성함
+Socket 소켓레퍼런스 = new Socket(서버 IP, 포트번호);
+//객체 생성시 서버와 자동 연결 요청함
+//연결이 실패하면, null 리턴됨
+=> 연결을 끊고나서, 다시 연결을 원할 때는 connect() 메소드 사용함.
+3. 서버와의 입출력 스트림을 오픈함
+InputStream input스트림레퍼런스 =
+클라이언트소켓레퍼런스.getInputStream(클라이언트소켓레퍼런스);
+OutputStream output스트림레퍼런스 =
+클라이언트소켓레퍼런스.getOutputStream(클라이언트소켓레퍼런스);
+4. 보조스트림을 붙여 성능을 개선해도 됨.
+바이트스트림을 문자스트림으로 변경해도 됨.
+예를 들면
+//입력용 스트림
+BufferedReader 레퍼런스 = new BufferedReader(
+new InputStreamReader(input스트림레퍼런스));
+//출력용 스트림
+PrintWriter 레퍼런스 = new PrintWriter(output스트림레퍼런스);
+5. 스트림을 통한 읽고 쓰기함
+읽기용레퍼런스.read() or 읽기용레퍼런스.readLine()
+쓰기용레퍼런스.println()
+
+*** 참고 : 버퍼 이용시 출력의 경우 println() 메소드 사용 후
+쓰기용레퍼런스.flush(); //버퍼비우기
+반드시 사용함
+6. 통신을 종료하려면,
+입력스트림레퍼런스.close();
+출력스트림레퍼런스.close();
+소켓레퍼런스.close();
