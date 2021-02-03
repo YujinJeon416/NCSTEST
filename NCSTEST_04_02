@@ -1,0 +1,60 @@
+[NCS전공교과] SQL활용 (문제해결시나리오)
+
+1.2001020413_16v3.1 기본 SQL 작성하기
+
+1. 직원테이블(EMP)이 존재한다.
+
+직원 테이블에서 사원명,직급코드, 보너스를 받는 사원 수를 조회하여 직급코드 순으로 오름차순 정렬하는 구문을 작성하였다.
+
+이 때 발생하는 문제점을 [원인](10점)에 기술하고, 이를 해결하기 위한 모든 방법과 구문을 [조치내용](30점)에 기술하시오.
+
+SELECT EMPNAME, JOBCODE, COUNT(*) AS 사원수
+
+FROM EMP
+
+WHERE BONUS != 'NULL'
+
+GROUP BY JOBCODE
+
+ORDER BY JOBCODE;
+
+모범답안
+
+컬럼의 NULL값 확인은 컬럼명='값'으로 확인이 안되고, GROUP BY를 사용시에 그룹함수를 제외한 모든 컬럼을 기술하지않아서 오류가 발생
+
+모범답안
+
+해결방법
+
+1. BONUS != 'NULL' -> BONUS IS NOT NULL 또는 NOT BONUS IS NULL
+2. GROUP BY JOBCODE -> GROUP BY EMPNAME,JOBCODE
+
+2.2001020413_16v3.2 고급 SQL 작성하기
+
+직원 테이블(EMP)에서 부서 코드별 그룹을 지정하여 부서코드, 그룹별 급여의 합계, 그룹별 급여의 평균(정수처리), 인원수를 조회하고 부서코드순으로 나열되어있는 코드 아래와 같이 제시되어있다. 아래의 SQL구문을 평균 월급이 2800000초과하는 부서를 조회하도록 수정하려고한다.
+
+수정해야하는 조건을[원인](30점)에 기술하고, 제시된 코드에 추가하여 [조치내용](30점)에 작성하시오.(60점)
+
+SELECT DEPT , SUM(SALARY) 합계 , FLOOR(AVG(SALARY)) 평균, COUNT(*) 인원수
+
+FROM EMP
+
+GROUP BY DEPT
+
+ORDER BY DEPT ASC;
+
+모범답안
+
+GROUP BY로 묶인그룹에 조건을 추가하기위해 HAVING절을 추가한다.
+
+모범답안
+
+SELECT DEPT, SUM(SALARY) 합계, FLOOR(AVG(SALARY)) 평균, COUNT(*) 인원수
+
+FROM EMP
+
+GROUP BY DEPT
+
+HAVING FLOOR(AVG(SALARY)) > 2800000
+
+ORDER BY DEPT ASC;
