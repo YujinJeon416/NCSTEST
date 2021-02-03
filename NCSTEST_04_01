@@ -1,0 +1,49 @@
+[NCS전공교과] SQL활용 (서술형(신))
+
+[NCS전공교과] SQL활용 (서술형(신))
+
+1.데이터베이스의 특징에 대해서 서술하시오.(10점)
+
+모범답안
+Database의 특징
+
+1. 실시간 접근성(real time accessibility) - 사용자가 데이터를 요청하면 실시간으로 결과를 서비스한다.
+2. 계속적인 변화(continuous change) - 데이터 값은 시간에 따라 항상 바뀐다.
+3. 동시 공유(concurrent sharing) - 데이터베이스는 서로 다른 업무 또는 여러 사용자에게 동시 공유된다.
+4. 내용에 따른 참조(reference by content) - 데이터베이스에 저장된 데이터는 데이터의 물리적 위치가 아니라 데이터 값에 따라 참조된다.
+
+2.직원 정보가 저장된 EMP 테이블에서 각 부서(DEPT)별 급여(SALARY)의 합계들을 구하여, 부서 급여합이 9백만을 초과하는 부서와 급여합계를 조회하는 SELECT 문을 작성하시오. (25점)
+
+'- 조회한 컬럼명과 함수식에는 별칭 적용한다. (DEPT 부서명, 함수식 급여합)
+
+모범답안
+SELECT DEPT 부서명, SUM(SALARY) 급여합
+FROM EMP
+GROUP BY DEPT
+HAVING SUM(SALARY) > 9000000;
+
+3.직원 정보를 저장한 EMP 테이블에서 사원명(ENAME)과 주민번호(ENO)를 함수를 사용하여 아래의 요구대로 조회되도록 SELECT 구문을 기술하시오. (25점)
+'- 주민번호는 '891224-1******' 의 형식으로 출력되게 하시오
+- 조회결과에 컬럼명은 별칭 처리하시오. => ENAME 사원명, ENO 주민번호
+
+모범답안
+SELECT ENAME 사원명, RPAD(SUBSTR(ENO, 1, 8), 14, '*') 주민번호
+FROM EMP;
+
+
+4.아래의 구문을 CASE 표현식을 사용하는 SELECT 문으로 변경하시오. (40점)
+- MERIT_RATING(인사고가)에 따라 BONUS(성과급)을 조회한다.
+merit_rating이 'A'라면 salary의 20%만큼 보너스를 부여한다.
+merit_rating이 'B'라면 salary의 15%만큼 보너스를 부여한다.
+merit_rating이 'C'라면 salary의 10%만큼 보너스를 부여한다.
+그 외 merit_rating값은 보너스가 없다.
+사원테이블에서 emp_name, merit_rating, salary, 보너스를 조회하세요.
+
+모범답안
+SELECT MERIT_RATING, SALARY,
+CASE MERIT_RATING
+WHEN ‘A’ THEN SALARY * 0.2
+WHEN ‘B’ THEN SALARY * 0.15
+WHEN ‘C’ THEN SALARY * 0.1
+ELSE 0 END BONUS
+FROM EMPLOYEE;
