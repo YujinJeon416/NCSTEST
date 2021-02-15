@@ -82,3 +82,5 @@ ORA-01045: user QWERTY lacks CREATE SESSION privilege; logon denied
 CREATE SESSION 권한 또는 CONNECT를 사용자 qwerty에게 부여한다.
 grant create session to qwerty;
 grant connect to qwerty;
+
+
