@@ -1,0 +1,136 @@
+하단의 그림을 참고하여 도출된 화면을 최종적으로 구현을 하시오.
+
+단, 문제에서 요구하는 사항들을 순차적으로 작성해나가면서 구현하시오.
+
+![https://khmain.or.kr/upload/editor/images/2021/2/20210223001118600cec7b-3d3a-4cb3-8070-d57411502e67.PNG](https://khmain.or.kr/upload/editor/images/2021/2/20210223001118600cec7b-3d3a-4cb3-8070-d57411502e67.PNG)
+
+---
+
+1. 전체적으로 감싸는 form태그를 작성하시오. 해당 form 태그 안에 그룹을 지을 수 있는 filedset 태그도 작성하시오.
+
+- form태그의 action 속성의 값은 test.do로 지정
+- form태그의 method 속성의 값은 get으로 지정
+- filedset의 제목을 제품주문으로 지정
+
+---
+
+모범답안
+
+```jsx
+<form action="test.do" method="get">
+
+<fieldset>
+
+<legend>제품주문</legend>
+
+</fieldset>
+
+</form>
+```
+
+2. filedset 안에 작성해야되는 입력양식 태그들 이전에 해당 input 요소들을 형식적으로 보여주기 위한 테이블 요소 작성하시오.
+
+- 4행 2열로 테이블을 만드시오
+- 테이블의 테두리가 보여지게끔 border 속성을 추가하시오.
+- 각 행별 첫번째 셀들은 th로, 각 행별 두번째 셀들은 td로 만드시오.
+
+모범답안
+
+```jsx
+<table border="1">
+
+<tr>
+
+<th></th>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<th></th>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<th></th>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<th></th>
+
+<td></td>
+
+</tr>
+
+</table>
+```
+
+3. 그림과 아래의 요구사항을 참고하며 각 행별 각 셀에 문구와 그에 해당하는 input 요소들을 채워넣으시오.
+
+- 첫째 행 : 주문자명, 일반텍스트상자 (name속성값 userName로 지정, 필수입력사항)
+- 둘째 행 : 비밀번호, 비밀번호입력텍스트상자 (name속성값 userPwd로 지정, 필수입력사항)
+- 셋째 행 : 제품수량, 숫자텍스트상자 (name속성값 amount로 지정, 최소값 0으로지정, 최대값 10으로지정)
+- 넷째 행 : 배송시요청사항, 여러줄텍스트상자 (name속성값 require로 통일, cols를 30, rows를 5로 지정, 사이즈 재조정 불가하게)
+
+```jsx
+모범답안
+<table border="1">
+
+<tr>
+
+<th>* 주문자명</th>
+
+<td><input type="text" name="userName" placeholder="이름을 입력하시오." required></td>
+
+</tr>
+
+<tr>
+
+<th>* 비밀번호</th>
+
+<td><input type="password" name="userPwd" placeholder="비밀번호 입력하시오." required></td>
+
+</tr>
+
+<tr>
+
+<th>* 제품수량</th>
+
+<td><input type="number" name="amount" min="0" max="10" value="0"> 개</td>
+
+</tr>
+
+<tr>
+
+<th>배송시 요청사항</th>
+
+<td>
+
+<textarea name="require" cols="30" rows="5" style="resize:none"></textarea>
+
+</td>
+
+</tr>
+
+</table>
+```
+
+4. form 태그내에 최종적으로 사용자가 입력한 값들 제출시킬 수 있는 버튼과 초기화시킬수 있는 버튼 두개 작성하시오.
+
+- 제출버튼의 문구는 주문으로 하시오.
+
+```jsx
+모범답안
+<input type="submit" value="주문">
+
+<input type="reset" value="초기화">
+```
